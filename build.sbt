@@ -10,4 +10,6 @@ libraryDependencies ++= Seq(
   "com.google.code.gson" % "gson" % "2.6.2",
   "com.sparkjava" % "spark-template-freemarker" % "2.3"
 )
+mainClass in (Compile, run) := Some("EndpointsTest")
+
     

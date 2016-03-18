@@ -3,7 +3,6 @@
  */
 
 import com.google.gson.JsonObject;
-import com.sun.deploy.config.Config;
 import freemarker.template.Configuration;
 import spark.ModelAndView;
 import spark.Spark;
@@ -18,8 +17,8 @@ public class EndpointsTest {
     public static final String BAR = "bar";
 
 
-    private static final JsonObject foo = buildJson();
     private static final String VIEW_FILE = "HelloWorld.ftl";
+    private static final String STATIC_FILE_LOCATION = "/public";
 
     private static JsonObject buildJson() {
         final JsonObject object = new JsonObject();
@@ -28,10 +27,13 @@ public class EndpointsTest {
     }
 
     public static void main(String[] args) {
-        Spark.staticFileLocation("/public");
+        Spark.staticFileLocation(STATIC_FILE_LOCATION);
+
         Configuration conf = new Configuration();
+
         conf.setClassForTemplateLoading(EndpointsTest.class, ROUTE_BASE);
-        get(ROUTE_BASE.concat(BAR), (request, response) -> foo);
+
+        get(ROUTE_BASE.concat(BAR), (request, response) -> TestConnection.flixToJson());
 
         get(ROUTE_BASE, (request, response) -> new ModelAndView(Collections.emptyMap(), VIEW_FILE), Engine(conf));
     }
